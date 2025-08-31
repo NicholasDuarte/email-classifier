@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resultado da Classificação</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>📩 Resultado da Classificação</h1>
+
+    <div class="card">
+      <h2>Classificação:</h2>
+      <p class="highlight">{{ result }}</p>
+    </div>
+
+    <div class="card">
+      <h2>Resposta automática sugerida:</h2>
+      <textarea id="responseBox" readonly>{{ auto_response }}</textarea>
+      <button type="button" onclick="copyResponse()">📋 Copiar Resposta</button>
+    </div>
+
+    <div class="card">
+      <h2>Trecho do e-mail:</h2>
+      <p>{{ content }}</p>
+    </div>
+
+    <a href="{{ url_for('index') }}" class="btn">⬅ Voltar</a>
+  </div>
+
+  <script>
+    function copyResponse() {
+      const text = document.getElementById("responseBox").value;
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => alert("Resposta copiada!"));
+      } else {
+        const ta = document.getElementById("responseBox");
+        ta.select();
+        document.execCommand("copy");
+        alert("Resposta copiada!");
+      }
+    }
+  </script>
+</body>
+</html>

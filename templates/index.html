@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Classificador de E-mails</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>📧 Classificador de E-mails</h1>
+    <p class="subtitle">Envie um PDF <strong>ou</strong> cole o texto do e-mail.</p>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="alert">{{ messages[0] }}</div>
+      {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('classify') }}" method="POST" enctype="multipart/form-data" onsubmit="return validateForm();">
+      <div class="card">
+        <label>Upload de PDF</label>
+        <input type="file" name="file" accept=".pdf">
+        <small>Opcional • Máx. recomendado 10MB</small>
+      </div>
+
+      <div class="divider"><span>ou</span></div>
+
+      <div class="card">
+        <label>Texto do e-mail</label>
+        <textarea name="email_text" placeholder="Cole o e-mail aqui..."></textarea>
+      </div>
+
+      <button type="submit">Classificar</button>
+    </form>
+  </div>
+
+  <script>
+    function validateForm(){
+      const file = document.querySelector('input[name="file"]').files[0];
+      const text = (document.querySelector('textarea[name="email_text"]').value || '').trim();
+      if (!file && !text){
+        alert('Envie um PDF ou cole o texto do e-mail.');
+        return false;
+      }
+      return true;
+    }
+  </script>
+</body>
+</html>

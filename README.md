@@ -1,0 +1,2 @@
+# email-classifier
+Desafio AutoU
